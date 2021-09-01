@@ -2,13 +2,17 @@ import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
 import { Task } from './Task';
 
-const StyledColumn = styled.div`
+const Container = styled.div`
   border: lightgrey solid 2px;
-  width: 300px;
-  min-height: 800px;
   border: ${({ isDraggingOver }) => {
     return isDraggingOver && 'green solid 2px';
   }};
+`;
+
+const StyledColumn = styled.div`
+  width: 300px;
+  min-height: 800px;
+  flex-grow: ${({ columnId }) => columnId !== 'column-1' && '1'};
 `;
 
 const StyledTitle = styled.h2`
@@ -20,20 +24,23 @@ const StyledTitle = styled.h2`
 
 export const Column = ({ column, tasks }) => {
   return (
-    <Droppable droppableId={column.id}>
-      {(provided, snapshot) => (
-        <StyledColumn
-          ref={provided.innerRef}
-          {...provided.droppable}
-          isDraggingOver={snapshot.isDraggingOver}
-        >
-          <StyledTitle>{column.title}</StyledTitle>
-          {column.taskIds.map((taskId, index) => (
-            <Task key={tasks[taskId].id} task={tasks[taskId]} index={index} />
-          ))}
-          {provided.placeholder}
-        </StyledColumn>
-      )}
-    </Droppable>
+    <Container>
+      <Droppable droppableId={column.id}>
+        {(provided, snapshot) => (
+          <StyledColumn
+            columnId={column.id}
+            ref={provided.innerRef}
+            {...provided.droppable}
+            isDraggingOver={snapshot.isDraggingOver}
+          >
+            <StyledTitle>{column.title}</StyledTitle>
+            {column.taskIds.map((taskId, index) => (
+              <Task key={tasks[taskId].id} task={tasks[taskId]} index={index} />
+            ))}
+            {provided.placeholder}
+          </StyledColumn>
+        )}
+      </Droppable>
+    </Container>
   );
 };

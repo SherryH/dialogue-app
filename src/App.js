@@ -29,26 +29,56 @@ function App() {
 
     // get the source column
     const sourceCol = dialogues.columns[source.droppableId];
-    // get the tasks in the column
-    const newTasks = Array.from(sourceCol.taskIds);
-    newTasks.splice(source.index, 1);
-    // put the tasks into the same column, diff position
-    newTasks.splice(destination.index, 0, draggableId);
+    const destinationCol = dialogues.columns[destination.droppableId];
+    if (sourceCol === destinationCol) {
+      // get the tasks in the column
+      const newTasks = Array.from(sourceCol.taskIds);
+      newTasks.splice(source.index, 1);
+      // put the tasks into the same column, diff position
+      newTasks.splice(destination.index, 0, draggableId);
 
-    const newDialogues = cloneDeep(dialogues);
+      const clonedDialogues = cloneDeep(dialogues);
+
+      // optimistic update on UI states
+      const newDialogues = {
+        ...clonedDialogues,
+        columns: {
+          ...clonedDialogues.columns,
+          [sourceCol.id]: {
+            ...sourceCol,
+            taskIds: newTasks,
+          },
+        },
+      };
+      setDialogues(newDialogues);
+      return;
+    }
+
+    // if move between columns
+    // get the tasks in the source column
+    const newSourceTasks = Array.from(sourceCol.taskIds);
+    const newDestinationTasks = Array.from(destinationCol.taskIds);
+    newSourceTasks.splice(source.index, 1);
+    // put the tasks into different column, diff position
+    newDestinationTasks.splice(destination.index, 0, draggableId);
+    const clonedDialogues = cloneDeep(dialogues);
 
     // optimistic update on UI states
-    const newDialogues2 = {
-      ...newDialogues,
+    const newDialogues = {
+      ...clonedDialogues,
       columns: {
-        ...newDialogues.columns,
+        ...clonedDialogues.columns,
         [sourceCol.id]: {
           ...sourceCol,
-          taskIds: newTasks,
+          taskIds: newSourceTasks,
+        },
+        [destinationCol.id]: {
+          ...destinationCol,
+          taskIds: newDestinationTasks,
         },
       },
     };
-    setDialogues(newDialogues2);
+    setDialogues(newDialogues);
   };
   return (
     // the key is in the data structure!!

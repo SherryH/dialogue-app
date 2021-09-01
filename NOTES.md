@@ -19,6 +19,39 @@ result = {
 };
 ```
 
+### Example info returned from API
+
+`DragDropContext` returns information on 3 APIs: `onDragStart`, `onDragUpdate`, `onDragEnd`.
+The information provided overtime builds up the `result` data.
+
+onDragStart
+
+```js
+start = {
+  draggableId: 'task-1',
+  type,
+  source: { droppableId: 'column-1', index },
+};
+```
+
+onDragUpdate
+
+```js
+update = {
+  ...start,
+  destination: { droppableId: 'column-2', index },
+};
+```
+
+onDragEnd
+
+```js
+result = {
+  ...update,
+  reason,
+};
+```
+
 ### Example Snapshots
 
 It provides information about the current drag, and can be useful for customising dragging appearance
