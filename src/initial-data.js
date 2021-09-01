@@ -1,3 +1,7 @@
+export const TEMPLATE_COL = 'column-1';
+export const ENGLISH_COL = 'column-2';
+export const GERMAN_COL = 'column-3';
+
 export const data = {
   tasks: {
     'task-1': { id: 'task-1', trigger: 'Trigger 1', content: 'Content 1' },
@@ -6,21 +10,21 @@ export const data = {
   },
 
   columns: {
-    'column-1': {
-      id: 'column-1',
+    [TEMPLATE_COL]: {
+      id: TEMPLATE_COL,
       title: 'Dialogue Template',
       taskIds: ['task-1', 'task-2'],
     },
-    'column-2': {
-      id: 'column-2',
+    [ENGLISH_COL]: {
+      id: ENGLISH_COL,
       title: 'English Dialogue',
       taskIds: [],
     },
-    'column-3': {
-      id: 'column-3',
+    [GERMAN_COL]: {
+      id: GERMAN_COL,
       title: 'German Dialogue',
       taskIds: [],
     },
   },
-  columnOrder: ['column-1', 'column-2', 'column-3'],
+  columnOrder: [TEMPLATE_COL, ENGLISH_COL, GERMAN_COL],
 };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Column } from './components/Column';
-import { data } from './initial-data';
+import { data, ENGLISH_COL, TEMPLATE_COL } from './initial-data';
 import { DragDropContext } from 'react-beautiful-dnd';
 import cloneDeep from 'lodash/cloneDeep';
 import styled from 'styled-components';
@@ -54,8 +54,34 @@ function App() {
       return;
     }
 
-    // if move between columns
-    // get the tasks in the source column
+    // =================================
+    // if move between columns,
+    // from Dialogue Template (column-1) to English Dialogue (column-2)
+    // the dialogues stay the same
+
+    if (sourceCol.id === TEMPLATE_COL && destinationCol.id === ENGLISH_COL) {
+      const newDestinationTasks = Array.from(destinationCol.taskIds);
+      newDestinationTasks.splice(destination.index, 0, draggableId);
+
+      const clonedDialogues = cloneDeep(dialogues);
+
+      // optimistic update on UI states
+      const newDialogues = {
+        ...clonedDialogues,
+        columns: {
+          ...clonedDialogues.columns,
+          [destinationCol.id]: {
+            ...destinationCol,
+            taskIds: newDestinationTasks,
+          },
+        },
+      };
+      debugger;
+      setDialogues(newDialogues);
+      return;
+    }
+
+    /*     // get the tasks in the source column
     const newSourceTasks = Array.from(sourceCol.taskIds);
     const newDestinationTasks = Array.from(destinationCol.taskIds);
     newSourceTasks.splice(source.index, 1);
@@ -78,7 +104,7 @@ function App() {
         },
       },
     };
-    setDialogues(newDialogues);
+    setDialogues(newDialogues); */
   };
   return (
     // the key is in the data structure!!

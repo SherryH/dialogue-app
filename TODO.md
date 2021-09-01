@@ -1,1 +1,2 @@
-- [] set focus and highlight the border of the task
+- [ x ] set focus and highlight the border of the task
+- [] refactor onDragEnd. Extract a `move()` and remove the duplication in 'moving within 1 single column'. On removing duplication, the only tricky part is in the final combining of the state where the source and destination columns are the same and causes error. => do a small check in an util function, if the keys are present, then...? why it doesnt just overwrite!? => to be investigated
