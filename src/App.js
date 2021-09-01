@@ -41,6 +41,7 @@ function App() {
     const newDialogues2 = {
       ...newDialogues,
       columns: {
+        ...newDialogues.columns,
         [sourceCol.id]: {
           ...sourceCol,
           taskIds: newTasks,
@@ -55,7 +56,6 @@ function App() {
     <DragDropContext onDragEnd={onDragEnd}>
       <Container>
         {dialogues['columnOrder'].map((columnId) => {
-          console.log(columnId);
           const column = dialogues.columns[columnId];
           const tasks = dialogues.tasks;
           return <Column key={columnId} column={column} tasks={tasks} />;
