@@ -4,3 +4,33 @@
 - We need to configure `provided.innerRef`, `provided.draggableProps` etc to the react-beautiful-dnd API
 - For optimistic update on the frontend, we need to update states in the `onDragEnd()`
 - Visual update during dragging and dropping is done through `snapshot`
+
+### Example result returned by react-beautiful-dnd onDragEnd()
+
+We can use the UI states easily as react-beautiful-dnd provided us with the `result` object with information on the source, destination columns and the index of the task before/after the drag.
+
+```js
+result = {
+  draggableId: 'task-1',
+  type,
+  reason,
+  source: { droppableId: 'column-1', index }, // index of the task in the source column
+  destination: { droppableId: 'column-2', index },
+};
+```
+
+### Example Snapshots
+
+It provides information about the current drag, and can be useful for customising dragging appearance
+
+```js
+const draggableSnapshot = {
+  isDragging: true,
+  draggingOver: 'column-1',
+};
+
+const droppableSnapshot = {
+  isDraggingOver: true,
+  draggingOverWith: 'task-1',
+};
+```

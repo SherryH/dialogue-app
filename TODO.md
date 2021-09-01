@@ -1,0 +1,1 @@
+- [] set focus and highlight the border of the task
